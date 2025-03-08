@@ -11,22 +11,28 @@ const db = admin.firestore();
 
 exports.handler = async (event) => {
     if (event.httpMethod !== "POST") {
-        return { statusCode: 405, body: "Method Not Allowed" };
+        return {
+            statusCode: 405,
+            headers: { "Access-Control-Allow-Origin": "*" },  // ✅ CORS 헤더 추가
+            body: JSON.stringify({ error: "Only POST requests are allowed." })
+        };
     }
 
     const { longUrl } = JSON.parse(event.body);
     if (!longUrl) {
-        return { statusCode: 400, body: "Missing longUrl" };
+        return {
+            statusCode: 400,
+            headers: { "Access-Control-Allow-Origin": "*" },  // ✅ CORS 헤더 추가
+            body: JSON.stringify({ error: "Missing longUrl parameter." })
+        };
     }
 
-    // 6자리 랜덤 코드 생성
     const shortCode = Math.random().toString(36).substring(2, 8);
-    
-    // Firestore 저장
     await db.collection("urls").doc(shortCode).set({ longUrl });
 
     return {
         statusCode: 200,
-        body: JSON.stringify({ shortUrl: `https://sshortener.netlify.app/${shortCode}` }),
+        headers: { "Access-Control-Allow-Origin": "*" },  // ✅ CORS 헤더 추가
+        body: JSON.stringify({ shortUrl: `https://sshortener.netlify.app/${shortCode}` })
     };
 };
