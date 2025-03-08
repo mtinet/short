@@ -1,11 +1,13 @@
-const { initializeApp } = require("firebase-admin/app");
-const { getFirestore } = require("firebase-admin/firestore");
 const admin = require("firebase-admin");
 
-// Firebase 초기화
-const serviceAccount = require("../serviceAccount.json");
-initializeApp({ credential: admin.credential.cert(serviceAccount) });
-const db = getFirestore();
+// Firebase 초기화 (환경 변수에서 인증 정보 불러오기)
+if (!admin.apps.length) {
+    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+}
+const db = admin.firestore();
 
 exports.handler = async (event) => {
     if (event.httpMethod !== "POST") {
