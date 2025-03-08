@@ -1,8 +1,8 @@
 const admin = require("firebase-admin");
+const serviceAccount = require("./serviceAccount.json"); // 환경 변수 대신 직접 파일 로드
 
-// Firebase 초기화 (환경 변수에서 인증 정보 불러오기)
+// Firebase 초기화
 if (!admin.apps.length) {
-    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)
     });
