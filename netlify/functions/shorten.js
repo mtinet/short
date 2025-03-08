@@ -27,6 +27,6 @@ exports.handler = async (event) => {
 
     return {
         statusCode: 200,
-        body: JSON.stringify({ shortUrl: `https://yourdomain.com/${shortCode}` }),
+        body: JSON.stringify({ shortUrl: `https://sshortener.netlify.app/${shortCode}` }),
     };
 };
