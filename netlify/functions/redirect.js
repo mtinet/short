@@ -10,13 +10,25 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 
 exports.handler = async (event) => {
+    if (event.httpMethod === "OPTIONS") {
+        return {
+            statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type"
+            },
+            body: ""
+        };
+    }
+
     const shortCode = event.path.split("/").pop();
     const doc = await db.collection("urls").doc(shortCode).get();
 
     if (!doc.exists) {
         return {
             statusCode: 404,
-            headers: { "Access-Control-Allow-Origin": "*" },  // ✅ CORS 헤더 추가
+            headers: { "Access-Control-Allow-Origin": "*" },
             body: JSON.stringify({ error: "URL Not Found" })
         };
     }
@@ -25,7 +37,7 @@ exports.handler = async (event) => {
     return {
         statusCode: 302,
         headers: {
-            "Access-Control-Allow-Origin": "*",  // ✅ CORS 헤더 추가
+            "Access-Control-Allow-Origin": "*",
             "Location": longUrl
         }
     };
