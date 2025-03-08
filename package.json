@@ -1,0 +1,13 @@
+{
+  "name": "netlify-url-shortener",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'No build step required'",
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.10.1",
+    "netlify-cli": "^15.8.0"
+  },
+  "devDependencies": {}
+}
