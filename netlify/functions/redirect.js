@@ -23,4 +23,4 @@ exports.handler = async (event) => {
         statusCode: 302,
         headers: { Location: longUrl }, // 302 리다이렉트
     };
-};
+}; 
