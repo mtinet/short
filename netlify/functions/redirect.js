@@ -10,17 +10,23 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 
 exports.handler = async (event) => {
-    const shortCode = event.path.split("/").pop(); // URL에서 코드 추출
+    const shortCode = event.path.split("/").pop();
     const doc = await db.collection("urls").doc(shortCode).get();
 
     if (!doc.exists) {
-        return { statusCode: 404, body: "URL Not Found" };
+        return {
+            statusCode: 404,
+            headers: { "Access-Control-Allow-Origin": "*" },  // ✅ CORS 헤더 추가
+            body: JSON.stringify({ error: "URL Not Found" })
+        };
     }
 
     const { longUrl } = doc.data();
-
     return {
         statusCode: 302,
-        headers: { Location: longUrl }, // 302 리다이렉트
+        headers: {
+            "Access-Control-Allow-Origin": "*",  // ✅ CORS 헤더 추가
+            "Location": longUrl
+        }
     };
 };
