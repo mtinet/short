@@ -1,5 +1,5 @@
 [build]
-  command = ""  # 프론트엔드 빌드 과정 없음
+  command = ""  # 정적 빌드 과정 없음
   functions = "netlify/functions"  # Netlify Functions만 사용
 
 [[redirects]]
